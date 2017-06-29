@@ -20,7 +20,4 @@ public:
 
 std::ostream& operator<<(std::ostream& os,const deputado& d);
 
-
-using mapDep=map<int,deputado>;
-
 #endif//DEPUTADOHPP

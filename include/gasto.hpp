@@ -18,6 +18,4 @@ public:
 
 std::ostream& operator<<(std::ostream& os,const gasto& g);
 
-using mapGasto=map<int,gasto>;
-
 #endif//GASTOHPP

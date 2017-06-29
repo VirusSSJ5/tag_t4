@@ -5,18 +5,18 @@
 
 class gasto{
 public:
-	//refund_description,company_name,company_id,refund_date,refund_value
-	string descricao;
-	string nomeEmpresa;
-	int empresaID;
-	date dataGasto;
-	double valorGasto;
+	struct gastoIndividual{
+		string descricao;
+		string data;
+		double valor;
+	}
+	double valorTotal;
+	vector<gastoIndividual> gastos;
 
-	gasto(){};
-	gasto(string d, string n, int id, date dg, double v);
+	void operator+=(const gastoIndividual &gi);
 };
 
-std::ostream& operator<<(std::ostream& os,const gasto& e);
+std::ostream& operator<<(std::ostream& os,const gasto& g);
 
 using mapGasto=map<int,gasto>;
 

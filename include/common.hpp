@@ -16,6 +16,8 @@ using std::endl;
 using std::ifstream;
 using std::getline;
 
+using uint=unsigned int;
+
 using ii=pair<int,int>;
 
 #define FOR(i,max)		for(int i=0;	i<(max);i++)

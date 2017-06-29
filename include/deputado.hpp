@@ -2,6 +2,7 @@
 #define DEPUTADOHPP
 
 #include "common.hpp"
+#include "gasto.hpp"
 
 class deputado{
 public:
@@ -10,12 +11,14 @@ public:
 	string estado;
 	string partido;
 
-	deputado(){};
-	deputado(string n, string e, string p);
+	//nome da empresa,gasto
+	map<string,gasto> gastos;
 
+	deputado(const string &n,const string &e,const string &p);
+	void operator+=(const pair<gasto::gastoIndividual,string> &in);
 };
 
-std::ostream& operator<<(std::ostream& os,const deputado& e);
+std::ostream& operator<<(std::ostream& os,const deputado& d);
 
 
 using mapDep=map<int,deputado>;

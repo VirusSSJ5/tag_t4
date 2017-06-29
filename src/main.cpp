@@ -1,9 +1,5 @@
 #include "common.hpp"
 
-map<string,deputado> deputados;
-map<string,empresa> empresas;
-unsigned double custoTotal=0;
-
 //OBS: Tratar 'aa' como uma letra 'a' craseada. Tratar 'eh' como uma letra 'e' com acento agudo.
 
 int main(){
@@ -33,23 +29,27 @@ int main(){
 
 	FOR2(i,1,338198){//ler 338198 linhas do csv
 		getline(file,line);
-		sscanf(line.c_str(),"%s,%s,%s,%s,%d,%s,%f",
-			&deputados[i].nome,
-			&deputados[i].estado,
-			&deputados[i].partido,
-			&deputados[i].descricao,
-			&deputados[i].nomeEmpresa,
-			&deputados[i].empresaID,
-			&deputados[i].dataGasto,
-			&deputados[i].valorGasto,
+		sscanf(line.c_str(),"%s,%s,%s,%s,%d,%sT00:00:00,%f",
+			&nome,
+			&estado,
+			&partido,
+			&descricao,
+			&nomeEmpresa,
+			&empresaID,
+			&dataGasto,
+			&valorGasto,
 		);
-	}
 
-	getline(file,line);getline(file,line);getline(file,line);//ignora tres linhas de comentario + linha vazia
+		//Atribui os valores lidos em nodos do grafo
+		deputados[nome].nome = nome;
+		deputados[nome].estado = estado;
+		deputados[nome].partido = partido;
 
-	FOR2(i,1,51){//ler 50 escolas
-		getline(file,line);
-		sscanf(line.c_str(),"(E%d):(%d)",&escolas[i].id,&escolas[i].preferencia);
+		empresa[nomeEmpresa].nomeEmpresa = nomeEmpresa;
+		empresa[empresaID].empresaID = empresaID;
+
+		deputado[nome]+=pair<gasto::gastoIndividual{descricao, dataGasto, valorGasto}>;
+		empresa[nomeEmpresa].gastos.insert(nome);
 	}
 
 	file.close();
@@ -58,8 +58,8 @@ int main(){
 	// FOR2(i,1,101)cout << professores[i] << endl;cout << endl;
 	// FOR2(i,1,51)cout << escolas[i] << endl;cout << endl;
 
-	//Metodo principal do programa: o que encontra o pareamento perfeito entre professores e escolas
-	achaPareamento(professores,escolas,pareamentoPE,pareamentoEP);
+	//Metodo principal do programa: o que encontra anomalias no grafo
+	
 
 	
 	//Impressao do resultado do pareamento

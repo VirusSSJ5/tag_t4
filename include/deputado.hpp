@@ -11,11 +11,14 @@ public:
 	string estado;
 	string partido;
 
+	double total;
+
 	//nome da empresa,gasto
 	map<string,gasto> gastos;
 
+	deputado(){};
 	deputado(const string &n,const string &e,const string &p);
-	void operator+=(const pair<gasto::gastoIndividual,string> &in);
+	void operator+=(const pair<gastoIndividual,string> &in);
 };
 
 std::ostream& operator<<(std::ostream& os,const deputado& d);

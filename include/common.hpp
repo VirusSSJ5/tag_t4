@@ -1,16 +1,22 @@
 #ifndef COMMONHPP
 #define COMMONHPP
 
-#include <array>
+#include <sstream>
+#include <vector>
 #include <string>
 #include <map>
+#include <set>
 #include <iostream>
 #include <fstream>
+#include <cmath>
 
-using std::array;
+using std::abs;
+using std::set;
+using std::vector;
 using std::string;
 using std::pair;
 using std::map;
+using std::cerr;
 using std::cout;
 using std::endl;
 using std::ifstream;

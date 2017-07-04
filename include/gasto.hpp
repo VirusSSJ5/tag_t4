@@ -3,13 +3,15 @@
 
 #include "common.hpp"
 
+struct gastoIndividual{
+	string descricao;
+	string data;
+	double valor;
+	gastoIndividual(const string &des,const string &date,const double &val);
+};
+
 class gasto{
 public:
-	struct gastoIndividual{
-		string descricao;
-		string data;
-		double valor;
-	}
 	double valorTotal;
 	vector<gastoIndividual> gastos;
 

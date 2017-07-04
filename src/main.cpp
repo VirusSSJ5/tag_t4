@@ -1,4 +1,12 @@
 #include "common.hpp"
+#include "deputado.hpp"
+#include "empresa.hpp"
+#include "gasto.hpp"
+
+map<string,deputado> deputados;
+map<string,empresa> empresas;
+double custoTotal;
+
 
 //////////////////////////////////////////////////////////////////////////
 ///	OBS: Tratar 'aa' como uma letra 'a' craseada. Tratar 'eh' como uma letra 'e' com acento agudo.
@@ -36,6 +44,37 @@ int main(){
 	int empresaID;
 	string dataGasto;
 	double valorGasto;
+	string temp;
+
+	while(getline(file,line)){
+		nome = estado = partido = descricao = nomeEmpresa = dataGasto = "[]";
+		empresaID = -1;
+		valorGasto = 0.0;
+
+		std::stringstream ss(line);
+		getline(ss,nome,',');
+		getline(ss,estado,',');
+		getline(ss,partido,',');
+		getline(ss,descricao,',');
+		getline(ss,nomeEmpresa,',');
+		getline(ss,temp,',');empresaID=atoi(temp.c_str());
+		getline(ss,dataGasto,'T');getline(ss,temp,',');
+		getline(ss,temp,',');valorGasto=atof(temp.c_str());
+
+		if(
+			(nome=="[]") ||
+			(estado=="[]") ||
+			(partido=="[]") ||
+			(descricao=="[]") ||
+			(nomeEmpresa=="[]") ||
+			(dataGasto=="[]") ||
+			(empresaID==-1) ||
+			(valorGasto==0.0)
+		){
+			cerr << "Linha '" << line << "' fora do padrão esperado." << endl;
+			continue;
+		}
+
 
 	//////////////////////////////////////////////////////////////////////////
 	///	Lê 338198 linhas do .csv
@@ -52,6 +91,8 @@ int main(){
 			&dataGasto,
 			&valorGasto,]
 		);
+		//
+		valorGasto = abs(valorGasto);
 
 		//////////////////////////////////////////////////////////////////////////
 		///	Atribui os valores lidos em nodos do grafo
@@ -60,11 +101,11 @@ int main(){
 		deputados[nome].estado = estado;
 		deputados[nome].partido = partido;
 
-		empresa[nomeEmpresa].nomeEmpresa = nomeEmpresa;
-		empresa[empresaID].empresaID = empresaID;
+		empresas[nomeEmpresa].nomeEmpresa = nomeEmpresa;
+		empresas[nomeEmpresa].empresaID = empresaID;
 
-		deputado[nome]+=pair<gasto::gastoIndividual{descricao, dataGasto, valorGasto}>;
-		empresa[nomeEmpresa].gastos.insert(nome);
+		gastoIndividual gi{descricao, dataGasto, valorGasto};
+		deputados[nome]+=pair<gastoIndividual,string>{gi,nomeEmpresa};
 	}
 
 	file.close();

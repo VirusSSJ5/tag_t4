@@ -10,7 +10,9 @@ public:
 	comunidades();
 };
 
-std::ostream& operator<<(std::ostream& os,const comunidade& c);
+std::ostream& operator<<(std::ostream& os,const co
+
+	munidade& c);
 
 using mapComunidade=map<int,comunidade>;
 

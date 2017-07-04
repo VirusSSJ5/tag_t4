@@ -11,18 +11,17 @@ public:
 	//////////////////////////////////////////////////////////////////////////
 	string nomeEmpresa;
 	int empresaID;
+	double total=0.0;
 
 	//////////////////////////////////////////////////////////////////////////
 	///	Matriz de adjacência: Nome do Deputado, gasto
 	//////////////////////////////////////////////////////////////////////////
-	map<string,gasto> gastos
+	set<string> clientes;
 
 	empresa(){};
-	empresa(string n, int id);
+	empresa(const string &n,const int id);
 };
 
 std::ostream& operator<<(std::ostream& os,const empresa& e);
-
-using mapEmpresa=map<int,empresa>;
 
 #endif//EMPRESAHPP

@@ -5,6 +5,10 @@
 
 map<string,deputado> deputados;
 map<string,empresa> empresas;
+// map<string,set<string>> grupoDep;
+// map<string,set<string>> grupoEmp;
+// set<string> deputadosUsados;
+// set<string> empresasUsadas;
 double custoTotal;
 
 
@@ -16,9 +20,9 @@ int main(){
 	string line;
 
 	//Leitura do arquivo de planilha "dirty_deputies_v2.csv", com tratamento de erro
-	ifstream file("dirty_deputies_v2.csv");
+	ifstream file("dirty_deputies_v3.csv");
 	if(!file.is_open()){
-		cout << "Erro ao abrir arquivo \"dirty_deputies_v2.csv\", o programa ira encerrar agora" << endl;
+		cout << "Erro ao abrir arquivo \"dirty_deputies_v3.csv\", o programa ira encerrar agora" << endl;
 		return EXIT_FAILURE;
 	}
 
@@ -42,14 +46,14 @@ int main(){
 		valorGasto = 0.0;
 
 		std::stringstream ss(line);
-		getline(ss,nome,',');
-		getline(ss,estado,',');
-		getline(ss,partido,',');
-		getline(ss,descricao,',');
-		getline(ss,nomeEmpresa,',');
-		getline(ss,temp,',');empresaID=atoi(temp.c_str());
-		getline(ss,dataGasto,'T');getline(ss,temp,',');
-		getline(ss,temp,',');valorGasto=atof(temp.c_str());
+		getline(ss,nome,';');
+		getline(ss,estado,';');
+		getline(ss,partido,';');
+		getline(ss,descricao,';');
+		getline(ss,nomeEmpresa,';');
+		getline(ss,temp,';');empresaID=atoi(temp.c_str());
+		getline(ss,dataGasto,'T');getline(ss,temp,';');
+		getline(ss,temp,';');valorGasto=atof(temp.c_str());
 
 		if(
 			(nome=="[]") ||
@@ -79,9 +83,26 @@ int main(){
 
 		gastoIndividual gi{descricao, dataGasto, valorGasto};
 		deputados[nome]+=pair<gastoIndividual,string>{gi,nomeEmpresa};
+
+		// if(!deputadosUsados.count(nome)){
+		// 	grupoDep[estado].insert(nome);
+		// 	deputadosUsados.insert(nome);
+		// }
+		// if(!empresasUsadas.count(nomeEmpresa)){
+		// 	grupoEmp[descricao].insert(nomeEmpresa);
+		// 	empresasUsadas.insert(nomeEmpresa);
+		// }
 	}
 
 	file.close();
+
+
+	cout << "numero de grupos de deputado: " << grupoDep.size() << endl;
+	for(auto &i:grupoDep){
+		cout << i.first << endl;
+	}
+	cout << endl;
+	cout << "numero de grupos de empresa: " << grupoEmp.size() << endl;
 
 	// //printa de novo so para ver que leu direito
 	// FOR2(i,1,101)cout << professores[i] << endl;cout << endl;

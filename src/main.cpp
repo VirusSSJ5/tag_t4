@@ -2,34 +2,43 @@
 #include "deputado.hpp"
 #include "empresa.hpp"
 #include "gasto.hpp"
+#include "anomalia.hpp"
 
 map<string,deputado> deputados;
 map<string,empresa> empresas;
-// map<string,set<string>> grupoDep;
-// map<string,set<string>> grupoEmp;
-// set<string> deputadosUsados;
-// set<string> empresasUsadas;
 double custoTotal;
+map<string,set<string>> grupoDep;
+map<string,set<string>> grupoEmp;
+set<string> deputadosUsados;
+set<string> empresasUsadas;
 
 
-//OBS: Tratar 'aa' como uma letra 'a' craseada. Tratar 'eh' como uma letra 'e' com acento agudo.
+//////////////////////////////////////////////////////////////////////////
+///	OBS: Tratar 'aa' como uma letra 'a' craseada. Tratar 'eh' como uma letra 'e' com acento agudo.
+//////////////////////////////////////////////////////////////////////////
 
 int main(){
-	
-	//Cadeia de caracteres que armazena cada linha do arquivo csv lido
+	//////////////////////////////////////////////////////////////////////////
+	///	Cadeia de caracteres que armazena cada linha do arquivo csv lido
+	//////////////////////////////////////////////////////////////////////////
 	string line;
 
-	//Leitura do arquivo de planilha "dirty_deputies_v2.csv", com tratamento de erro
+	//Leitura do arquivo de planilha "dirty_deputies_v3.csv", com tratamento de erro
 	ifstream file("dirty_deputies_v3.csv");
 	if(!file.is_open()){
 		cout << "Erro ao abrir arquivo \"dirty_deputies_v3.csv\", o programa ira encerrar agora" << endl;
 		return EXIT_FAILURE;
 	}
 
-	getline(file,line);//ignora a primeira linha de colunas da planilha
+	//////////////////////////////////////////////////////////////////////////
+	///	Ignora a primeira linha de colunas da planilha
+	//////////////////////////////////////////////////////////////////////////
+	getline(file,line);
 
-	//Variaveis temporarias para armazenar os seguintes valores das colunas, respectivamente:
-	//deputy_name,deputy_state,political_party,refund_description,company_name,company_id,refund_date,refund_value
+	//////////////////////////////////////////////////////////////////////////
+	///	Variaveis temporarias para armazenar os seguintes valores das colunas, respectivamente:
+	///	deputy_name,deputy_state,political_party,refund_description,company_name,company_id,refund_date,refund_value
+	//////////////////////////////////////////////////////////////////////////
 	string nome;
 	string estado;
 	string partido;
@@ -40,6 +49,11 @@ int main(){
 	double valorGasto;
 	string temp;
 
+
+
+	//////////////////////////////////////////////////////////////////////////
+	///	Lê o .csv
+	//////////////////////////////////////////////////////////////////////////
 	while(getline(file,line)){
 		nome = estado = partido = descricao = nomeEmpresa = dataGasto = "[]";
 		empresaID = -1;
@@ -65,15 +79,13 @@ int main(){
 			(empresaID==-1) ||
 			(valorGasto==0.0)
 		){
-			cerr << "Linha '" << line << "' fora do padrão esperado." << endl;
+			// cerr << "Linha '" << line << "' fora do padrão esperado." << endl;
 			continue;
 		}
 
-
-		//
-		valorGasto = abs(valorGasto);
-
-		//Atribui os valores lidos em nodos do grafo
+		//////////////////////////////////////////////////////////////////////////
+		///	Atribui os valores lidos em nodos do grafo
+		//////////////////////////////////////////////////////////////////////////
 		deputados[nome].nome = nome;
 		deputados[nome].estado = estado;
 		deputados[nome].partido = partido;
@@ -84,37 +96,46 @@ int main(){
 		gastoIndividual gi{descricao, dataGasto, valorGasto};
 		deputados[nome]+=pair<gastoIndividual,string>{gi,nomeEmpresa};
 
-		// if(!deputadosUsados.count(nome)){
-		// 	grupoDep[estado].insert(nome);
-		// 	deputadosUsados.insert(nome);
-		// }
-		// if(!empresasUsadas.count(nomeEmpresa)){
-		// 	grupoEmp[descricao].insert(nomeEmpresa);
-		// 	empresasUsadas.insert(nomeEmpresa);
-		// }
+		if(!deputadosUsados.count(nome)){
+			grupoDep[estado].insert(nome);
+			deputadosUsados.insert(nome);
+		}
+		if(!empresasUsadas.count(nomeEmpresa)){
+			grupoEmp[descricao].insert(nomeEmpresa);
+			empresasUsadas.insert(nomeEmpresa);
+		}
 	}
 
 	file.close();
 
+	//////////////////////////////////////////////////////////////////////////
+	/// Imprime o resultado do grafo para verificar se a leitura obteve sucesso
+	//////////////////////////////////////////////////////////////////////////
 
-	cout << "numero de grupos de deputado: " << grupoDep.size() << endl;
-	for(auto &i:grupoDep){
-		cout << i.first << endl;
-	}
-	cout << endl;
-	cout << "numero de grupos de empresa: " << grupoEmp.size() << endl;
+	// cout << "numero de grupos de deputado: " << grupoDep.size() << endl;
+	// for(auto &i:grupoDep){
+	// 	cout << i.first << endl;
+	// }
+	// cout << endl;
+	// cout << "numero de grupos de empresa: " << grupoEmp.size() << endl;
 
-	// //printa de novo so para ver que leu direito
-	// FOR2(i,1,101)cout << professores[i] << endl;cout << endl;
-	// FOR2(i,1,51)cout << escolas[i] << endl;cout << endl;
 
-	//Metodo principal do programa: o que encontra anomalias no grafo
+	//////////////////////////////////////////////////////////////////////////
+	///	Metodo de encontrar as comunidades no grafo
+	//////////////////////////////////////////////////////////////////////////
+	//auto coms = comunidades();
+
+	//////////////////////////////////////////////////////////////////////////
+	///	Metodo principal do programa: o que encontra anomalias no grafo
+	//////////////////////////////////////////////////////////////////////////
+	auto anos = anomalias();
 	
-
-	
-	//Impressao do resultado do pareamento
-	// for(auto p:pareamentoPE)cout << "Professor " << p.first << " pareado com escola " << p.second << endl;
-	// for(auto p:pareamentoEP)cout << "Escola " << p.first << " pareado com professores " << p.second.first << " e " << p.second.second << endl;
+	//////////////////////////////////////////////////////////////////////////
+	///	Impressão do resultado das anomalias
+	//////////////////////////////////////////////////////////////////////////
+	//for(auto &com:coms)cout << "aa" << endl;
+	cout << "Anomalias: " << endl << endl;
+	for(auto &ano:anos)cout << ano.first << ": " << ano.second << endl;
 
 	return 0;
 }

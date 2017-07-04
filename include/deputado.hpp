@@ -14,7 +14,8 @@ public:
 	string estado;
 	string partido;
 
-<<<<<<< HEAD
+	double total;
+
 	//////////////////////////////////////////////////////////////////////////
 	///	Relacionamento (aresta) com as empresas
 	///	Nome da empresa,gasto
@@ -37,17 +38,10 @@ public:
 	///		
 	///		Insere um gasto novo como a aresta do grafo
 	//////////////////////////////////////////////////////////////////////////
-	void operator+=(const pair<gasto::gastoIndividual,string> &in);
-=======
-	double total;
+	void operator+=(const pair<gastoIndividual,string> &in);
 
-	//nome da empresa,gasto
-	map<string,gasto> gastos;
 
 	deputado(){};
-	deputado(const string &n,const string &e,const string &p);
-	void operator+=(const pair<gastoIndividual,string> &in);
->>>>>>> 1be9f5d79cc39aa40054b769b1f3d1db5dda4326
 };
 
 //////////////////////////////////////////////////////////////////////////

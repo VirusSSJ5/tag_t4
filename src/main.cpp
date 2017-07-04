@@ -7,6 +7,7 @@ map<string,deputado> deputados;
 map<string,empresa> empresas;
 double custoTotal;
 
+
 //OBS: Tratar 'aa' como uma letra 'a' craseada. Tratar 'eh' como uma letra 'e' com acento agudo.
 
 int main(){

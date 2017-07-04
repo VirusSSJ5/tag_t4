@@ -5,14 +5,13 @@
 
 class comunidade{
 public:
+	int grau;
 	comunidade();
 
 	comunidades();
 };
 
-std::ostream& operator<<(std::ostream& os,const co
-
-	munidade& c);
+std::ostream& operator<<(std::ostream& os,const comunidade& c);
 
 using mapComunidade=map<int,comunidade>;
 

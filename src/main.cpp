@@ -52,14 +52,14 @@ int main(){
 		valorGasto = 0.0;
 
 		std::stringstream ss(line);
-		getline(ss,nome,',');
-		getline(ss,estado,',');
-		getline(ss,partido,',');
-		getline(ss,descricao,',');
-		getline(ss,nomeEmpresa,',');
-		getline(ss,temp,',');empresaID=atoi(temp.c_str());
-		getline(ss,dataGasto,'T');getline(ss,temp,',');
-		getline(ss,temp,',');valorGasto=atof(temp.c_str());
+		getline(ss,nome,';');
+		getline(ss,estado,';');
+		getline(ss,partido,';');
+		getline(ss,descricao,';');
+		getline(ss,nomeEmpresa,';');
+		getline(ss,temp,';');empresaID=atoi(temp.c_str());
+		getline(ss,dataGasto,'T');getline(ss,temp,';');
+		getline(ss,temp,';');valorGasto=atof(temp.c_str());
 
 		if(
 			(nome=="[]") ||

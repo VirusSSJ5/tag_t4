@@ -83,5 +83,29 @@ void comunidade::criaComunidades(){
 }
 
 double comunidade::calcQ(){
-	return 0;
+	double soma=0;
+	for(comunidade &com:comunidades){
+		for(const string &dep1:com.deps){
+			for(const string &dep2:com.deps){
+				if (dep1 != dep2) soma += ((deputados[dep1].total * deputados[dep2].total)/ (2 * custoTotal)) * (-1); //* mesmaComunidade(deputados[dep],empresas[emp]);
+			}
+			
+			for(const string &emp2:com.emps){
+				soma += deputados[dep1].gastos[emp2].valorTotal - ((deputados[dep1].total * empresas[emp2].total)/ (2 * custoTotal)); //* mesmaComunidade(deputados[dep],empresas[emp]);
+			}
+		}
+		
+		for(const string &emp1:com.emps){
+			for(const string &dep2:com.deps){
+				soma += deputados[dep2].gastos[emp1].valorTotal - ((empresas[emp1].total * deputados[dep2].total)/ (2 * custoTotal)); //* mesmaComunidade(deputados[dep],empresas[emp]);
+			}
+			
+			for(const string &emp2:com.emps){
+				if (emp1 != emp2) soma +=  (empresas[emp1].total * empresas[emp2].total)/ (2 * custoTotal) * (-1); //* mesmaComunidade(deputados[dep],empresas[emp]);
+			}
+		}
+	}
+	
+	soma /= 2 * custoTotal;
+	return soma;	
 }

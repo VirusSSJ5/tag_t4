@@ -7,7 +7,7 @@
 
 map<string,deputado> deputados;
 map<string,empresa> empresas;
-// set<comunidade> comunidades;
+vector<comunidade> comunidades;
 double custoTotal;
 
 
@@ -91,9 +91,8 @@ int main(){
 		empresas[nomeEmpresa].nomeEmpresa = nomeEmpresa;
 		empresas[nomeEmpresa].empresaID = empresaID;
 
-		gastoIndividual gi{descricao, dataGasto, valorGasto};
+		gastoIndividual gi{descricao, dataGasto, abs(valorGasto)};
 		deputados[nome]+=pair<gastoIndividual,string>{gi,nomeEmpresa};
-
 	}
 
 	file.close();
@@ -127,7 +126,6 @@ int main(){
 	cout << "Anomalias: " << endl << endl;
 	for(auto &ano:anos)cout << ano.first << ": " << ano.second << endl;
 
-
-	cout << "aaa " << deputados.size() << " " << empresas.size() << endl;
+	// cout << "aaa " << deputados.size() << " " << empresas.size() << endl;
 	return 0;
 }

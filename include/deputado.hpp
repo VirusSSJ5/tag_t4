@@ -14,7 +14,7 @@ public:
 	string estado;
 	string partido;
 
-	double total;
+	double total=0;
 
 	//////////////////////////////////////////////////////////////////////////
 	///	Relacionamento (aresta) com as empresas

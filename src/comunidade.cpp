@@ -2,11 +2,12 @@
 #include "deputado.hpp"
 #include "empresa.hpp"
 #include "gasto.hpp"
+#include "comunidade.hpp"
 
 extern map<string,deputado> deputados;
 extern map<string,empresa> empresas;
 extern double custoTotal;
-extern set<comunidade> comunidades;
+extern vector<comunidade> comunidades;
 
 
 set<string> comunidade::deputadosUsados;//ja estao em outras comunidades
@@ -18,63 +19,69 @@ comunidade::comunidade(string s){
 	while(1){
 		double best = calcQ();
 		{
-			auto bestIT = empresas.end();
+			string bestSTR = "";
 			for(auto &it:empresas){
-				if(empresasUsadas.count(it->first))continue;
+				if(empresasUsadas.count(it.first))continue;
 				comunidade c = *this;
-				c.insert(it.first,false);
-				double q = c.calcQ();
+				insert(it.first,false,false);
+				double q = calcQ();
 				if(q > best){
 					best = q;
-					bestIT = it;
+					bestSTR = it.first;
 				}
+				*this = c;
 			}
-			if(bestIT != empresas.end())insert(bestIT->first);
+			if(!bestSTR.empty())insert(bestSTR,false);
 		}
 		{
-			auto bestIT = deputados.end();
+			string bestSTR;
 			for(auto &it:deputados){
 				if(deputadosUsados.count(it.first));
 				comunidade c = *this;
-				c.insert(it.first,true);
+				c.insert(it.first,true,false);
 				double q = c.calcQ();
 				if(q > best){
 					best = q;
-					bestIT = it;
+					bestSTR = it.first;
 				}
 			}
-			if(bestIT == deputados.end())insert(bestIT->first);
+			if(!bestSTR.empty())insert(bestSTR,true);
 		}
-		if(best = calcQ())break;
+		if(best == calcQ())break;
 	}
 }
 
-comunidade comunidade::insert(string s,bool isDep){
+void comunidade::insert(string s,bool isDep,bool mark){
 	if(isDep){
-		for(string &emp:emps){
+		for(const string &emp:emps){
 			if(deputados[s].gastos.count(emp)){
 				numArestas++;
 				weight += deputados[s].gastos[emp].valorTotal;
 			}
 		}
 		deps.insert(s);
+		if(mark)deputadosUsados.insert(s);
 	}
 	else{
 		emps.insert(s);
-		for(string &dep:deps){
+		for(const string &dep:deps){
 			if(deputados[dep].gastos.count(s)){
 				numArestas++;
 				weight += deputados[dep].gastos[s].valorTotal;
 			}
 		}
+		if(mark)empresasUsadas.insert(s);
 	}
 }
 
 void comunidade::criaComunidades(){
 	for(auto &it:deputados){
 		if(deputadosUsados.count(it.first))continue;
-		comunidades.emplace_back(it.first);
+		comunidade c(it.first);
+		if(c.deps.size() + c.emps.size() > 1)comunidades.push_back(c);
 	}
 }
 
-double comunidade::calcQ(){}
+double comunidade::calcQ(){
+	return 0;
+}

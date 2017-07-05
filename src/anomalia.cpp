@@ -8,7 +8,7 @@ extern map<string,empresa> empresas;
 extern double custoTotal;
 
 
-#define SUSPEITO 0.25
+#define SUSPEITO 0.4
 
 double calcEntropia(deputado &dep){
 	int N = dep.gastos.size();

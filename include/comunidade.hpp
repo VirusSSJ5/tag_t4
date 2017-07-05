@@ -16,7 +16,7 @@ public:
 	comunidade(){};
 	comunidade(string s);
 
-	void insert(string s,bool isDep);
+	void insert(string s,bool isDep,bool mark=true);
 
 	static double calcQ();
 	static void criaComunidades();
@@ -27,3 +27,4 @@ std::ostream& operator<<(std::ostream& os,const comunidade& c);
 using mapComunidade=map<int,comunidade>;
 
 #endif//COMUNIDADEHPP
+

@@ -3,11 +3,12 @@
 #include "empresa.hpp"
 #include "gasto.hpp"
 
-#define SUSPEITO 0.25
-
 extern map<string,deputado> deputados;
 extern map<string,empresa> empresas;
 extern double custoTotal;
+
+
+#define SUSPEITO 0.25
 
 double calcEntropia(deputado &dep){
 	int N = dep.gastos.size();

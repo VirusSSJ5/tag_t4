@@ -3,14 +3,12 @@
 #include "empresa.hpp"
 #include "gasto.hpp"
 #include "anomalia.hpp"
+#include "comunidade.hpp"
 
 map<string,deputado> deputados;
 map<string,empresa> empresas;
+// set<comunidade> comunidades;
 double custoTotal;
-map<string,set<string>> grupoDep;
-map<string,set<string>> grupoEmp;
-set<string> deputadosUsados;
-set<string> empresasUsadas;
 
 
 //////////////////////////////////////////////////////////////////////////
@@ -96,14 +94,6 @@ int main(){
 		gastoIndividual gi{descricao, dataGasto, valorGasto};
 		deputados[nome]+=pair<gastoIndividual,string>{gi,nomeEmpresa};
 
-		if(!deputadosUsados.count(nome)){
-			grupoDep[estado].insert(nome);
-			deputadosUsados.insert(nome);
-		}
-		if(!empresasUsadas.count(nomeEmpresa)){
-			grupoEmp[descricao].insert(nomeEmpresa);
-			empresasUsadas.insert(nomeEmpresa);
-		}
 	}
 
 	file.close();
@@ -137,5 +127,7 @@ int main(){
 	cout << "Anomalias: " << endl << endl;
 	for(auto &ano:anos)cout << ano.first << ": " << ano.second << endl;
 
+
+	cout << "aaa " << deputados.size() << " " << empresas.size() << endl;
 	return 0;
 }

@@ -6,15 +6,20 @@
 class comunidade{
 public:
 	static set<string> deputadosUsados;//ja estao em outras comunidades
-	static set<string> empresasUsados;//ja estao em outras comunidades
+	static set<string> empresasUsadas;//ja estao em outras comunidades
+
+	int numArestas=0;
+	double weight=0.0;
 
 	set<string> deps;//deputados
 	set<string> emps;//empresas
-	comunidade();
+	comunidade(){};
+	comunidade(string s);
 
-	double calcQ();
-	comunidade operator+(deputado d);
-	comunidade operator+(empresa e);
+	void insert(string s,bool isDep);
+
+	static double calcQ();
+	static void criaComunidades();
 };
 
 std::ostream& operator<<(std::ostream& os,const comunidade& c);

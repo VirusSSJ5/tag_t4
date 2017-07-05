@@ -77,4 +77,35 @@ void comunidade::criaComunidades(){
 	}
 }
 
-double comunidade::calcQ(){}
+double comunidade::calcQ(){
+	double soma;
+	for(string &dep1:deputados){
+		for(string &dep2:deputados){
+			if (dep1 != dep2) soma += ((deputados[dep1].total * deputados[dep2].total)/ (2 * custoTotal)) * (-1); //* mesmaComunidade(deputados[dep],empresas[emp]);
+		}
+		
+		for(string &emp2:empresas){
+			soma += deputados[dep1].gastos[emp2].valorTotal - ((deputados[dep1].total * empresas[emp2].total)/ (2 * custoTotal)); //* mesmaComunidade(deputados[dep],empresas[emp]);
+		}
+	}
+	
+	for(string &emp1:empresas){
+		for(string &dep2:deputados){
+			soma += deputados[dep2].gastos[emp1].valorTotal - ((empresas[emp1].total * deputados[dep2].total)/ (2 * custoTotal)); //* mesmaComunidade(deputados[dep],empresas[emp]);
+		}
+		
+		for(string &emp2:empresas){
+			if (emp1 != emp2) soma += empresas[emp1].clientes[emp2].valorTotal - (empresas[emp1].total * empresas[emp2].total)/ (2 * custoTotal)) * (-1); //* mesmaComunidade(deputados[dep],empresas[emp]);
+		}
+	}
+	
+	/*
+		for(i){for(j){
+		soma += ( aresta.valorTotal - ( (nodo[i].custoTotal * nodo[j].custoTotal) / 2*custoTotal ) * mesmaComunidade(nodo[i], nodo[j])
+		}
+		soma /= 2m
+	*/
+	
+	soma /= 2 * custoTotal;
+	return soma;	
+}
